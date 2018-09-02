@@ -1,0 +1,74 @@
+﻿<Window x:Class="SignalRClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SignalRClient"
+        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+        xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        mc:Ignorable="d"
+        Title="Signal R Evaluation Client"
+        Height="450"
+        Width="800">
+    <Window.DataContext>
+        <local:ViewModel />
+    </Window.DataContext>
+
+    <dxmvvm:Interaction.Behaviors>
+        <dx:DXMessageBoxService />
+        <dxmvvm:DispatcherService />
+    </dxmvvm:Interaction.Behaviors>
+
+    <DockPanel LastChildFill="True">
+
+        <Border BorderThickness="1.5" 
+                BorderBrush="Black"
+                Margin="0, 2, 0,0"
+                DockPanel.Dock="Bottom">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top"
+                            Orientation="Horizontal">
+                    <Label Width="70">Name:</Label>
+                    <dxe:TextEdit EditValue="{Binding Name}"
+                                  HorizontalAlignment="Left"
+                                  Width="300" />
+                </StackPanel>
+                <StackPanel DockPanel.Dock="Top"
+                            Orientation="Horizontal">
+                    <Label Width="70">Birth date:</Label>
+                    <dxe:TextEdit EditValue="{Binding BirthDate}"
+                                  HorizontalAlignment="Left"
+                                  Width="300" />
+                </StackPanel>
+                <StackPanel DockPanel.Dock="Top"
+                            Orientation="Horizontal">
+                    <Label Width="70">Body size:</Label>
+                    <dxe:TextEdit EditValue="{Binding BodySize}"
+                                  HorizontalAlignment="Left"
+                                  Width="300" />
+                </StackPanel>
+                <Button DockPanel.Dock="Bottom" 
+                        Margin="0, 5, 0 ,0"
+                        Command="{Binding AddCommand}">Add</Button>
+            </DockPanel>
+        </Border>
+
+        <Button DockPanel.Dock="Bottom" Command="{Binding UpdateCommand}">Update</Button>
+        <Button DockPanel.Dock="Bottom" Command="{Binding DeleteCommand}">Delete</Button>
+        <Button DockPanel.Dock="Bottom" Command="{Binding RefreshCommand}">Refresh</Button>
+
+        <dxg:GridControl ItemsSource="{Binding Persons}"
+                         CurrentItem="{Binding SelectedPerson}"
+                         MaxHeight="9000"
+                         MaxWidth="9000"
+                         EnableSmartColumnsGeneration="True"
+                         AutoGenerateColumns="AddNew"
+                         DockPanel.Dock="Top">
+            <dxg:GridControl.View>
+                <dxg:TableView NavigationStyle="Cell" />
+            </dxg:GridControl.View>
+        </dxg:GridControl>
+    </DockPanel>
+</Window>
