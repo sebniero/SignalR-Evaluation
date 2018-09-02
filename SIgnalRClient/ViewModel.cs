@@ -30,7 +30,7 @@ namespace SignalRClient
 
         private async void InitPersonHub()
         {
-            var hubConnection = new HubConnectionBuilder().WithUrl("http://localhost:9000/hub/person").Build();
+            var hubConnection = new HubConnectionBuilder().WithUrl("http://localhost:9000/gateway/hub/person").Build();
             hubConnection.On<Person>("Add", OnNewPersonAdded);
             hubConnection.On<long>("Delete", OnPersonDeleted);
             hubConnection.On<Person>("Change", OnPersonChanged);
@@ -77,7 +77,7 @@ namespace SignalRClient
         {
             try
             {
-                var restRequest = new RestRequest("api/person", Method.GET);
+                var restRequest = new RestRequest("person", Method.GET);
                 var restResponse = _restClient.Execute<List<PersonDataViewModel>>(restRequest);
                 Persons = new ObservableCollection<PersonDataViewModel>(restResponse.Data);
             }
@@ -89,7 +89,7 @@ namespace SignalRClient
 
         public void Update()
         {
-            var restRequest = new RestRequest("api/person", Method.PUT) { RequestFormat = DataFormat.Json };
+            var restRequest = new RestRequest("person", Method.PUT) { RequestFormat = DataFormat.Json };
             restRequest.AddBody(SelectedPerson);
 
             _restClient.Execute(restRequest);
@@ -97,7 +97,7 @@ namespace SignalRClient
 
         public void DeletePerson()
         {
-            var restRequest = new RestRequest("api/person/{id}", Method.DELETE);
+            var restRequest = new RestRequest("person/{id}", Method.DELETE);
             restRequest.AddUrlSegment("id",SelectedPerson?.Id);
 
             _restClient.Execute(restRequest);
@@ -111,7 +111,7 @@ namespace SignalRClient
                 Name = Name,
                 BodySize = BodySize
             };
-            var restRequest = new RestRequest("api/person", Method.POST) {RequestFormat = DataFormat.Json};
+            var restRequest = new RestRequest("person", Method.POST) {RequestFormat = DataFormat.Json};
             restRequest.AddBody(person);
 
             _restClient.Execute(restRequest);
